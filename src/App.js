@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import CardList from './components/card-list/card-list'
 
 class App extends Component {
   
@@ -8,7 +9,8 @@ class App extends Component {
     super();
 
     this.state = {
-      skaters: []
+      skaters: [],
+      searchField: '',
     };
   }
 
@@ -23,10 +25,25 @@ class App extends Component {
     }));
   };
 
-  render() {
+  // making a method onsearch no longer rendering autonomous functions in the render
+  onSearchChange= (event) => {
+    console.log(event.target.value);
+  const searchField = event.target.value.toLowerCase();
 
-    const filteredSkaters = this.state.skaters.filter((skater) => {
-      return skater.name.toLowerCase().includes(this.state.searchField);
+  this.setState(() => {
+    return{ searchField };
+  })
+  };
+
+
+
+  render() {
+    // optimizing for easier to read code
+    const { skaters, searchField } = this.state;
+    const { onSearchChange } = this;
+
+    const filteredSkaters = skaters.filter((skater) => {
+      return skater.name.toLowerCase().includes(searchField);
      });
 
     return <div className='App'>
@@ -34,23 +51,17 @@ class App extends Component {
       className='search-box' 
       type='search' 
       placeholder= 'search skaters' 
-      onChange={(event) => {
-        console.log(event.target.value);
-        const searchField = event.target.value.toLowerCase();
-
-        this.setState(() => {
-          return{ searchField };
-        })
-      }}></input>
+      onChange={onSearchChange}></input>
       {
-        filteredSkaters.map((skater)=>{
+        /* filteredSkaters.map((skater)=>{
           return (
             <div key={skater.id}>
               <h1>{skater.name}</h1>
             </div>
           )
-        })
+        }) */
       }
+      <CardList />
       </div>;
   }
 }
