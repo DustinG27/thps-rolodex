@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import logo from './logo.svg';
+import SearchBox from './components/search-box/search-box'
 import './App.css';
 import CardList from './components/card-list/card-list'
 
@@ -47,21 +47,8 @@ class App extends Component {
      });
 
     return <div className='App'>
-      <input 
-      className='search-box' 
-      type='search' 
-      placeholder= 'search skaters' 
-      onChange={onSearchChange}></input>
-      {
-        /* filteredSkaters.map((skater)=>{
-          return (
-            <div key={skater.id}>
-              <h1>{skater.name}</h1>
-            </div>
-          )
-        }) */
-      }
-      <CardList />
+      <SearchBox onChangeHandler={onSearchChange} placeholder='search' className='search-box'/>
+      <CardList skaters={filteredSkaters} />
       </div>;
   }
 }
